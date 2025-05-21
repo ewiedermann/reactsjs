@@ -1,33 +1,49 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../css/FormularioNombreApellido.css";
 
-//Que necesito para un formulario?
-const FormularioNombreApellido = () => {
-    //El primer no existe, esta en blanco.
+const FormularioNombreApellido = ({ titulo = "Formulario Nombre y Apellido" }) => {
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
-
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
-        //Revisa que no se cargue de vuelta la pagina web
         e.preventDefault();
-        alert(`Nombre: ${nombre} o apellido: ${apellido} no cargado`);
+
+        // Navegar a PantallaDestino y pasar los datos
+        navigate("/resultado", {
+            state: { nombre, apellido }
+        });
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label>Nombre</label>
-                <input type="text"
-                    value={nombre}
-                    onChange={(e) => setNombre(e.target.value)} />
-            </div>
-            <div>
-                <label>Apellido</label>
-                <input type="text"
-                    value={apellido}
-                    onChange={(e) => setApellido(e.target.value)} />
-            </div>
-        </form>
+        <div className="form-container">
+            <form onSubmit={handleSubmit} className="glass-form">
+                <h2>{titulo}</h2>
+
+                <div className="form-group">
+                    <label>Nombre</label>
+                    <input
+                        type="text"
+                        value={nombre}
+                        onChange={(e) => setNombre(e.target.value)}
+                        placeholder="Escribe tu nombre"
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label>Apellido</label>
+                    <input
+                        type="text"
+                        value={apellido}
+                        onChange={(e) => setApellido(e.target.value)}
+                        placeholder="Escribe tu apellido"
+                    />
+                </div>
+
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
     );
 };
 
